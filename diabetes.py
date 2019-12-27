@@ -153,7 +153,7 @@ y_predict=regressor.predict(x_test)
 y_testValues=y_test.iloc[:,:].values
 successRate=calculateSuccessRate(y_predict,y_testValues)
 print("Success rate of linear Regression with backward Elimination is  "+str(successRate))
-print()
+print("Linear Regression Accuracy : ",accuracy_score(y_testValues,y_predict.round()))
 
 
 #verilerin olceklenmesi
@@ -175,6 +175,39 @@ plt.scatter(x_olcekli,y_olcekli,color='red')
 plt.plot(x_olcekli,svr_reg.predict(x_olcekli),color='blue')
 
 print(svr_reg.predict(11))
+
+
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+clf = SVC(kernel='linear')
+clf.fit(x_train,y_train)
+y_pred = clf.predict(x_test)
+print("SVM Accuracy : ",accuracy_score(y_test,y_pred))
+#print(y_test)
+#print(calculateSuccessRate(y_pred, y_test))
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics
+
+clf = DecisionTreeClassifier()
+clf = clf.fit(x_train,y_train)
+y_pred = clf.predict(x_test)
+print("Decision Tree Accuracy : ",metrics.accuracy_score(y_test, y_pred))
+
+
+from sklearn.neighbors import KNeighborsClassifier
+
+knn = KNeighborsClassifier(n_neighbors=101, metric='euclidean')
+knn.fit(x_train, y_train)
+y_pred = knn.predict(x_test)
+print("K-Nearest Neighbor Accuracy : ",metrics.accuracy_score(y_test, y_pred))
+
+from sklearn.naive_bayes import GaussianNB 
+NB = GaussianNB()  
+NB.fit(x_train, y_train)   
+y_pred = NB.predict(x_test)  
+print(" Naive Bayes Accuracy : ",metrics.accuracy_score(y_test, y_pred))
 
 
 
