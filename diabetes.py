@@ -8,6 +8,7 @@ Created on Sat Nov 23 18:17:58 2019
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
@@ -71,10 +72,6 @@ def processingDataset():
     return model_Input_DF, outcome_DF
 
 
-model_Input_DF, outcome_DF = processingDataset()
-x_train, x_test, y_train, y_test = train_test_split(model_Input_DF, outcome_DF,
-                                                    test_size=0.33, random_state=0)
-
 
 def linearRegression():
 
@@ -83,7 +80,7 @@ def linearRegression():
     regressor.fit(x_train, y_train)
     y_predict = regressor.predict(x_test)
     # y_testValues = y_test.iloc[:, :].values
-    print("Success rate of linear Regression is  ", metrics.accuracy_score(y_test, y_predict.round()))
+    print("Linear Regression accuracy  ", metrics.accuracy_score(y_test, y_predict.round()))
 
 
 def backwardEliminationLinearRegression():
@@ -117,17 +114,14 @@ def backwardEliminationLinearRegression():
                                                                        'DiabetesPedigreeFunction'])
 
     x_train_lr, x_test_lr, y_train_lr, y_test_lr = train_test_split(model_Input_DF, outcome_DF,
-                                                        test_size=0.33, random_state=0)
+                                                        test_size=0.33, random_state=96)
 
     regressor = LinearRegression()
     regressor.fit(x_train_lr, y_train_lr)
     y_predict = regressor.predict(x_test_lr)
     y_testValues = y_test.iloc[:, :].values
-    print("Success rate of linear Regression with backward Elimination: ", metrics.accuracy_score(y_testValues, y_predict.round()))
+    print("Linear Regression with backward Elimination: ", metrics.accuracy_score(y_testValues, y_predict.round()))
 
-
-x_train, x_test, y_train, y_test = train_test_split(model_Input_DF, outcome_DF,
-                                                    test_size=0.33, random_state=0)
 
 
 def svm():
@@ -149,10 +143,10 @@ def decision_tree():
     print("Decision Tree Accuracy : ", metrics.accuracy_score(y_test, y_pred))
 
 
-def k_neighbors_classifier():
+def k_neighbors_classifier(neighbor):
 
     global x_train, y_train, x_test, y_test
-    knn = KNeighborsClassifier(n_neighbors=50, metric='euclidean')
+    knn = KNeighborsClassifier(n_neighbors=neighbor, metric='euclidean')
     knn.fit(x_train, y_train)
     y_pred = knn.predict(x_test)
     print("K-Nearest Neighbor Accuracy : ", metrics.accuracy_score(y_test, y_pred))
@@ -185,12 +179,20 @@ def gradient_boosting_classifier():
 
     print("Gradient Boosting Classifier : ", metrics.accuracy_score(y_test, y_pred))
 
-
+model_Input_DF, outcome_DF = processingDataset()
+x_train, x_test, y_train, y_test = train_test_split(model_Input_DF, outcome_DF,
+                                                test_size=0.33, random_state=96)
+'''
 linearRegression()
 backwardEliminationLinearRegression()
 svm()
 decision_tree()
-k_neighbors_classifier()
+'''
+
+k_neighbors_classifier(23)
+
+'''
 gaussian_nb()
 random_forest_regressor()
 gradient_boosting_classifier()
+'''
